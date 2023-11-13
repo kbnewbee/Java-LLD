@@ -7,6 +7,32 @@ import main.java.states.HasCoinState;
 import main.java.states.IdleState;
 import main.java.states.State;
 
+/*
+    Vending machine has 3 states - based on State Design Pattern
+    - IdleState
+    - CoinInsertedState
+    - DispenseState
+
+    The idea is to implement runtime polymorphism using
+    curVendingMachineState (Interface State) depending on the state during runtime
+
+    Maintain Inventory of products to display to the user using
+    - aisles - AISLE_COUNT represents total capacity of aisles in the vending machine
+    - each aisle number will represent a specific product
+    - each product will have its own count to maintain more than one product to choose from
+
+    Actors are
+    - Admin - who will add product to the inventory
+    - User - customer who will buy product by paying
+
+    Customer is exposed to following methods
+    - insertCoin(double amount)
+    - selectProduct(int aisleNumber)
+
+    Admin is exposed to all the methods exposed to customers and
+    - addProduct(Product product)
+
+ */
 public class VendingMachine {
 
     private IdleState idleState;
@@ -17,13 +43,13 @@ public class VendingMachine {
     private Inventory inventory;
     private static final int AISLE_COUNT = 3;
 
-    public VendingMachine() {
+    public VendingMachine(int aisleCount) {
         idleState = new IdleState(this);
         hasCoinState = new HasCoinState(this);
         dispenseState = new DispenseState(this);
         curVendingMachineState = idleState;
         amountInserted = 0.0;
-        inventory = new Inventory(3);
+        inventory = new Inventory(aisleCount);
     }
 
     /*
@@ -49,11 +75,19 @@ public class VendingMachine {
     }
 
     /*
-        For admin
+        This method is exposed to Admin of the vending machine
      */
     public void addProduct(Product product) {
         try {
             this.inventory.addProduct(product);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void removeProduct(int aisleNumber) {
+        try {
+            this.inventory.removeProduct(aisleNumber);
         } catch (Exception e) {
             e.printStackTrace();
         }
