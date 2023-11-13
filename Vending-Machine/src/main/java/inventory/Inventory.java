@@ -42,6 +42,20 @@ public class Inventory {
         productIdToCountMap.put(productId, curProductCount + 1);
     }
 
+    /*
+        This method removes a product from the inventory - job of the admin
+        - removes the product from the aisle-to-product map
+        - adds the newly free aisle to the available aisle list
+        - also removes the product from the product count map
+
+     */
+    public void removeProduct(int aisleNumber) {
+        Product product = aisleToProductMap.get(aisleNumber);
+        productIdToCountMap.remove(product.getId());
+        aisleToProductMap.remove(aisleNumber);
+        aisleAvailable.add(aisleNumber);
+    }
+
     public Product getProduct(int aisleNumber) {
         Product product = aisleToProductMap.get(aisleNumber);
         return product;
@@ -52,15 +66,11 @@ public class Inventory {
         return curProductCount > 0;
     }
 
+
     public void decrementProductCount(int aisleNumber) {
         int productId = aisleToProductMap.get(aisleNumber).getId();
         int curProductCount = productIdToCountMap.get(productId);
-        if (curProductCount > 0)
-            productIdToCountMap.put(productId, curProductCount - 1);
-        else {
-            productIdToCountMap.remove(productId);
-            aisleToProductMap.remove(aisleNumber);
-        }
+        productIdToCountMap.put(productId, curProductCount - 1);
     }
 
 }

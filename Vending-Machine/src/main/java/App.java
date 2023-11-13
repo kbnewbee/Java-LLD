@@ -5,7 +5,9 @@ import main.java.inventory.Product;
 public class App {
     private static final int AISLE_COUNT = 3;
     private static final int MAX_PRODUCT_COUNT = 3;
+    
     public static void main(String[] args) {
+
         /*
             Vending machine has 3 aisles - so 3 kinds of product
             1 - lays
@@ -33,7 +35,6 @@ public class App {
         }
 
         // Customer operations
-
         vendingMachine.insertCoin(10.0);
         vendingMachine.selectProduct(1);
 
